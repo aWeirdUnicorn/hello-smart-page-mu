@@ -15,12 +15,53 @@
         <span class="divider divider--yellow" style="width: 60%; margin: 1.5rem auto; display: block;"></span>
         <button class="btn-primary" onclick="showMessage()">Tell Me Again</button>
         <div id="message" class="body-copy" style="margin-top: 1.5rem; min-height: 2rem; color: var(--color-primary);"></div>
+
+        <span class="divider divider--yellow" style="width: 60%; margin: 2rem auto 1.5rem; display: block;"></span>
+        <p class="body-copy" style="margin-bottom: 1rem;">What's your favorite dessert?</p>
+        <div style="display: flex; gap: 0.5rem;">
+            <input 
+                type="text" 
+                id="dessertInput" 
+                placeholder="Enter your favorite dessert" 
+                style="flex: 1; padding: 0.75rem; border: 2px solid var(--color-primary); border-radius: var(--radius-input); font-family: var(--font-body); font-size: 1rem;"
+            >
+            <button class="btn-primary" onclick="validateDessert()" style="white-space: nowrap;">Submit</button>
+        </div>
+        <div id="dessertMessage" class="body-copy" style="margin-top: 1rem; min-height: 1.5rem;"></div>
     </div>
 
     <script>
+        // 🍰 Secret favorite dessert — don't tell anyone!
+        const favoriteDessert = 'tiramisu';
+
         function showMessage() {
             document.getElementById('message').textContent = 'Oh you are so so smart!';
         }
+
+        function validateDessert() {
+            const input = document.getElementById('dessertInput').value.toLowerCase().trim();
+            const messageDiv = document.getElementById('dessertMessage');
+
+            if (input === favoriteDessert) {
+                messageDiv.textContent = 'wow, yeah tiramisu is so good.';
+                messageDiv.style.color = 'var(--color-primary)';
+            } else if (input === '') {
+                messageDiv.textContent = 'Please enter a dessert!';
+                messageDiv.style.color = 'var(--color-primary-dark)';
+            } else {
+                messageDiv.textContent = `Nah. ${input} sucks.`;
+                messageDiv.style.color = 'var(--color-primary-dark)';
+            }
+        }
+
+        // Allow Enter key to submit
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('dessertInput').addEventListener('keypress', function(event) {
+                if (event.key === 'Enter') {
+                    validateDessert();
+                }
+            });
+        });
     </script>
 
 </body>
