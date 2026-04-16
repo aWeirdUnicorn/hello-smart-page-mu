@@ -31,27 +31,23 @@
     </div>
 
     <script>
-        // 🍰 Secret favorite dessert — don't tell anyone!
-        const favoriteDessert = 'tiramisu';
-
-        function showMessage() {
+function showMessage() {
             document.getElementById('message').textContent = 'Oh you are so so smart!';
         }
 
-        function validateDessert() {
-            const input = document.getElementById('dessertInput').value.toLowerCase().trim();
+        async function validateDessert() {
+            const input = document.getElementById('dessertInput').value.trim();
             const messageDiv = document.getElementById('dessertMessage');
 
-            if (input === favoriteDessert) {
-                messageDiv.textContent = 'wow, yeah tiramisu is so good.';
-                messageDiv.style.color = 'var(--color-primary)';
-            } else if (input === '') {
-                messageDiv.textContent = 'Please enter a dessert!';
-                messageDiv.style.color = 'var(--color-primary-dark)';
-            } else {
-                messageDiv.textContent = `Nah. ${input} sucks.`;
-                messageDiv.style.color = 'var(--color-primary-dark)';
-            }
+            const res = await fetch('/api/dessert', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ dessert: input })
+            });
+
+            const data = await res.json();
+            messageDiv.textContent = data.message;
+            messageDiv.style.color = data.result === 'success' ? 'var(--color-primary)' : 'var(--color-primary-dark)';
         }
 
         // Allow Enter key to submit

@@ -1,0 +1,4 @@
+.env
+node_modules/
+desserts.db
+.DS_Store
